@@ -1,11 +1,14 @@
 package tests.day1;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MyFirstSeleniumScript {
 
     public static void main(String[] args) {
+
        // we have to set up webdriver base don the browser we will use
         WebDriverManager.chromedriver().setup();
         // we need to create an object of appropriate class
@@ -26,6 +29,7 @@ public class MyFirstSeleniumScript {
         }else{
             System.out.println("Test failed");
         }
+
         // to close browser
         driver.close();
     }

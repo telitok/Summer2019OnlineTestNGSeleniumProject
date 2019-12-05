@@ -119,9 +119,21 @@ public class HW4_VytrackCalendarEvents {
         // click on "Create Calendar Event" button
         driver.findElement(By.xpath("//*[@class='btn-group']//a[@href='/calendar/event/create']")).click();
         BrowserUtils.wait(3);
-       String expected= driver.findElement(By.cssSelector("[class='input-small timepicker-input start ui-timepicker-input']")).getAttribute("innerHTML");
-        System.out.println(expected);
-        // to be continued
+        // locate the start time input box and click
+       WebElement start= driver.findElement(By.cssSelector("[class='input-small timepicker-input start ui-timepicker-input']"));
+        start.click();
+        BrowserUtils.wait(2);
+        // pick a random time, so the end time will be start time+1 hour, in this case I picked 9:00 PM
+       driver.findElement(By.xpath("//div[@class='ui-timepicker-wrapper']/ul/li[43]")).click();
+       BrowserUtils.wait(3);
+       // Click at a random spot to allow the end time to be updated so our locator can get the correct end time
+        // In this case, I clicked on the whole End time row
+       driver.findElement(By.cssSelector("[class='control-group end control-group-datetime']")).click();
+       BrowserUtils.wait(2);
+       // get the text of endtime box and see if it is 1 hor more than the picked-start time
+       String actualEnd = driver.findElement(By.cssSelector("[class='input-small timepicker-input end ui-timepicker-input']")).getAttribute("value");
+      Assert.assertEquals(actualEnd,"10:00 PM");
+        System.out.println(actualEnd);
     }
 
     @Test( description = "Verify that end time is equals to “10:00 PM")
@@ -135,19 +147,16 @@ public class HW4_VytrackCalendarEvents {
         WebElement start = driver.findElement(By.xpath("//*[@class='ui-timepicker-wrapper']//ul//li[43]"));
         start.click();
         BrowserUtils.wait(3);
-        driver.findElement(By.cssSelector("[class='input-small timepicker-input end ui-timepicker-input']")).click();
-       BrowserUtils.wait(3);
-        //String actual = driver.findElement(By.cssSelector("[class='input-small timepicker-input end ui-timepicker-input]")).getText();
-        //String expected = "10:00 PM";
-       // Assert.assertEquals(actual,expected);
-        WebElement ten = driver.findElement(By.xpath("//div[8][@class='ui-timepicker-wrapper ui-timepicker-positioned-top']//ul//li[3]"));
-        Assert.assertTrue(ten.isSelected());
-
-        //Failed test
-
-
-
+        // Click at a random spot to allow the end time to be updated so our locator can get the correct end time
+        // In this case, I clicked on the whole End time row
+        driver.findElement(By.cssSelector("[class='control-group end control-group-datetime']")).click();
+        BrowserUtils.wait(2);
+        // get the text of endtime box and see if it is 10:00 PM
+        String actualEnd = driver.findElement(By.cssSelector("[class='input-small timepicker-input end ui-timepicker-input']")).getAttribute("value");
+        Assert.assertEquals(actualEnd,"10:00 PM");
+        System.out.println(actualEnd);
         }
+
     @Test(description = "Verify that start and end date input boxes are displayed")
     public void test7(){
         // click on "Create Calendar Event" button
@@ -317,7 +326,8 @@ public class HW4_VytrackCalendarEvents {
     }
     @AfterMethod
     public void teardown(){
-       driver.quit();
+
+        driver.quit();
     }
 
 }

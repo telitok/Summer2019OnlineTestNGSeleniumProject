@@ -137,21 +137,23 @@ public class HW3_SynchronizationCheckboxesLocators {
         driver.findElement(By.xpath("//*[@id=\"main-menu\"]/ul/li[5]/div/div/ul/li[4]")).click();
         BrowserUtils.wait(3);
         // find "Testers meeting"
-        driver.findElement(By.xpath("//table[@class='grid table-hover table table-bordered table-condensed']//tbody//tr[13]//td[2]")).click();
+        driver.findElement(By.xpath("//table[@class='grid table-hover table table-bordered table-condensed']//tbody//tr[15]//td[2]")).click();
         BrowserUtils.wait(5);
-        for (int i = 1; i < 9; i++) {
-            List<WebElement> list = driver.findElements(By.xpath("//*[@id=\"container\"]/div[2]/div[2]/div[2]/div/div[1]/div[2]/div/div/div/div/div[1]//div[" + i + "]"));
-            list.add(driver.findElement(By.xpath("//*[@id=\"container\"]/div[2]/div[2]/div[2]/div/div[1]/div[2]/div/div/div/div/div[2]/div")));
-            for (WebElement each : list) {
-                String message = each.getText();
-                System.out.println(message);
+        // Create a string list which includes expected info
+        List<String> info = new ArrayList<>(Arrays.asList("Title\nTesters Meeting", "Description\nThis is a a weekly testers meeting", "Start\nNov 27, 2019, 9:30 PM", "End\nNov 27, 2019, 10:30 PM", "All-day Event\nNo", "Organizer\nStephan Haley",
+                                                          "Guests\nTom Smith - Required", "Recurrence\nWeekly every 1 week on Wednesday", "Call Via Hangout\nNo"));
+        // Create a list of actual info
+        List<WebElement> list = driver.findElements(By.xpath("//div[@class='control-group attribute-row']"));
+        // iterate through the expected and actual info and make sure that they match
+        for (int i =0;i<list.size();i++) {
+                    Assert.assertEquals(list.get(i).getText(),info.get(i));
 
-                break;
+            // I print out everything just to make sure :)
+            System.out.println(list.get(i).getText()+"\n"+info.get(i));
 
+                }
             }
 
-        }
-    }
 
     @AfterMethod
     public void teardown(){
